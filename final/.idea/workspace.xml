@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cf6d6b41-36fb-42e6-b2e3-39a2edb30e81" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/page/public/favicon1.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/api/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/assets/down.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/assets/ic_rating_m@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/assets/logo.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/assets/up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/axios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/History.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/Personal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/UserCenter.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/filmReview/KeyWords.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/filmReview/SentimentAnalysis.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/filmReview/Useful.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/grip/ActorContent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/grip/MovieComment.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/grip/MovieContent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/grip/component/inputCmp.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/visualization/SentimentChart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/visualization/WordCloud.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/views/Login.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/views/Main.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/views/Register.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/page/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/page/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/page/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/page/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/page/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/src/assets/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/page/src/assets/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/page/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/page/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/page/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/src/views/About.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/src/views/Home.vue" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Vue Single File Component" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/page" />
+  </component>
+  <component name="ProjectId" id="1UVbkwnnSnSp2gPCNYQJmrHx1kh" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.13.1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\15867\Desktop\final\page\src\assets" />
+      <recent name="C:\Users\15867\Desktop\final\page\src\components" />
+      <recent name="C:\Users\15867\Desktop\final\page\public" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Node.js.index.js">
+    <configuration name="actorInfoController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="actorInfoController.js" working-dir="$PROJECT_DIR$/web">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="index.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <configuration name="keywordsController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="keywordsController.js" working-dir="$PROJECT_DIR$/web">
+      <method v="2" />
+    </configuration>
+    <configuration name="sentimenttest.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/web/sentimenttest.js" working-dir="$PROJECT_DIR$/web">
+      <method v="2" />
+    </configuration>
+    <configuration name="userInfoDao.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="userInfoDao.js" working-dir="$PROJECT_DIR$/dao">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.index.js" />
+        <item itemvalue="Node.js.actorInfoController.js" />
+        <item itemvalue="Node.js.sentimenttest.js" />
+        <item itemvalue="Node.js.keywordsController.js" />
+        <item itemvalue="Node.js.userInfoDao.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cf6d6b41-36fb-42e6-b2e3-39a2edb30e81" name="Default Changelist" comment="" />
+      <created>1575444856502</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1575444856502</updated>
+      <workItem from="1575444857621" duration="6779000" />
+      <workItem from="1575530603255" duration="9108000" />
+      <workItem from="1575603707711" duration="1199000" />
+      <workItem from="1575702895223" duration="847000" />
+      <workItem from="1575704338432" duration="794000" />
+      <workItem from="1575721495897" duration="535000" />
+      <workItem from="1575722083503" duration="437000" />
+      <workItem from="1575786281121" duration="7216000" />
+      <workItem from="1575882106844" duration="13595000" />
+      <workItem from="1575944960058" duration="4861000" />
+      <workItem from="1576038031180" duration="3545000" />
+      <workItem from="1576051444488" duration="757000" />
+      <workItem from="1576484610902" duration="3312000" />
+      <workItem from="1576650520579" duration="12634000" />
+      <workItem from="1576730517571" duration="743000" />
+      <workItem from="1576838970316" duration="3168000" />
+      <workItem from="1577007733650" duration="7129000" />
+      <workItem from="1577449828423" duration="933000" />
+      <workItem from="1577514135171" duration="19417000" />
+      <workItem from="1577585421727" duration="11784000" />
+      <workItem from="1577702448318" duration="11253000" />
+      <workItem from="1577776597508" duration="22357000" />
+      <workItem from="1577846478406" duration="24420000" />
+      <workItem from="1577956212773" duration="698000" />
+      <workItem from="1578010906127" duration="4638000" />
+      <workItem from="1578019252662" duration="158000" />
+      <workItem from="1578022755273" duration="1874000" />
+      <workItem from="1582288324124" duration="2014000" />
+      <workItem from="1583234792741" duration="5125000" />
+      <workItem from="1583240154552" duration="271000" />
+      <workItem from="1583240453515" duration="200000" />
+      <workItem from="1583240829097" duration="191000" />
+      <workItem from="1583241073339" duration="951000" />
+      <workItem from="1583319620794" duration="11836000" />
+      <workItem from="1583381879057" duration="3658000" />
+      <workItem from="1583387204627" duration="21366000" />
+      <workItem from="1583470878588" duration="23474000" />
+      <workItem from="1583554402748" duration="13455000" />
+      <workItem from="1583756003606" duration="6986000" />
+      <workItem from="1584190801970" duration="3678000" />
+      <workItem from="1584360493951" duration="3906000" />
+      <workItem from="1584532202572" duration="5723000" />
+      <workItem from="1584704834636" duration="8280000" />
+      <workItem from="1585298483426" duration="103000" />
+      <workItem from="1585298949609" duration="96000" />
+      <workItem from="1585312407371" duration="625000" />
+      <workItem from="1585373482261" duration="2873000" />
+      <workItem from="1585473871122" duration="3255000" />
+      <workItem from="1585547354035" duration="443000" />
+      <workItem from="1585550243784" duration="557000" />
+      <workItem from="1585569831461" duration="9653000" />
+      <workItem from="1585660208118" duration="127000" />
+      <workItem from="1585662988528" duration="3482000" />
+      <workItem from="1585748765009" duration="2862000" />
+      <workItem from="1585819369673" duration="13114000" />
+      <workItem from="1585894723935" duration="1362000" />
+      <workItem from="1586172251203" duration="8244000" />
+      <workItem from="1586264403905" duration="5549000" />
+      <workItem from="1586351929765" duration="3829000" />
+      <workItem from="1586426981977" duration="6000000" />
+      <workItem from="1586517709609" duration="10052000" />
+      <workItem from="1586697801845" duration="621000" />
+      <workItem from="1587039161147" duration="12000" />
+      <workItem from="1587385086143" duration="613000" />
+      <workItem from="1587550940829" duration="13539000" />
+      <workItem from="1587643917654" duration="6514000" />
+      <workItem from="1587729282644" duration="8226000" />
+      <workItem from="1587817989869" duration="7711000" />
+      <workItem from="1587892815565" duration="2063000" />
+      <workItem from="1588049470268" duration="277000" />
+      <workItem from="1588062184641" duration="168000" />
+      <workItem from="1588077546297" duration="6815000" />
+      <workItem from="1588146496001" duration="13877000" />
+      <workItem from="1588214281159" duration="31477000" />
+      <workItem from="1588300916840" duration="16076000" />
+      <workItem from="1588386437347" duration="18266000" />
+      <workItem from="1588475875125" duration="2484000" />
+      <workItem from="1588499631549" duration="6841000" />
+      <workItem from="1588570342941" duration="9472000" />
+      <workItem from="1588646858365" duration="15878000" />
+      <workItem from="1588733245993" duration="1667000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
