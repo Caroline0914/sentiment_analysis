@@ -9,7 +9,6 @@ const superagent = require('superagent');
 const path = new Map();
 
 
-
 /**
  * 获取电影详情页面html
  * @param movieId 电影id
@@ -37,35 +36,38 @@ function filterMovieContent(movieId, html) {
         id: movieId,
         prize: []
     };
-    let prevDescribe = JSON.parse($('script[type="application/ld+json"]').html());
-    describe.name = prevDescribe.name;//电影名
-    describe.director = prevDescribe.director;//导演
-    describe.author = prevDescribe.author;//编剧
-    describe.actor = prevDescribe.actor;//演员
-    describe.datePublished = prevDescribe.datePublished;//上映时间
-    describe.genre = prevDescribe.genre;//类型
-    describe.image = prevDescribe.image;//图片地址(绝对路径)
-    $('.article .subjectwrap .subject #info > .pl').each(function () {
-        if($(this).text().indexOf("制片国家/地区") >= 0) {
-            describe.country = $(this)[0].next.data
-        } else if($(this).text().indexOf("语言") >= 0) {
-            describe.language = $(this)[0].next.data
-        } else if($(this).text().indexOf("片长") >= 0) {
-            describe.mTime = $(this).next().text()
-        }
-    });
-    describe.plot = $('.article .related-info .indent span[property="v:summary"]').text().trim().split("\n").map(ele => {//剧情简介
-        return ele.trim();
-    }).filter(ele =>{
-        return ele.trim();
-    });
-    $('.article .mod .award').each(function () {//获奖情况
-        let arr = [];
-        $(this).find('li').each(function () {
-            arr.push($(this).text().trim());
+    // console.log(JSON.parse($('script[type="application/ld+json"]').html().replace(/\s+/g, "")))
+    if($('script[type="application/ld+json"]').html()){
+        let prevDescribe = JSON.parse($('script[type="application/ld+json"]').html().replace(/\s+/g, ""));
+        describe.name = prevDescribe.name;//电影名
+        describe.director = prevDescribe.director;//导演
+        describe.author = prevDescribe.author;//编剧
+        describe.actor = prevDescribe.actor;//演员
+        describe.datePublished = prevDescribe.datePublished;//上映时间
+        describe.genre = prevDescribe.genre;//类型
+        describe.image = prevDescribe.image;//图片地址(绝对路径)
+        $('.article .subjectwrap .subject #info > .pl').each(function () {
+            if($(this).text().indexOf("制片国家/地区") >= 0) {
+                describe.country = $(this)[0].next.data
+            } else if($(this).text().indexOf("语言") >= 0) {
+                describe.language = $(this)[0].next.data
+            } else if($(this).text().indexOf("片长") >= 0) {
+                describe.mTime = $(this).next().text()
+            }
         });
-        describe.prize.push(arr);
-    });
+        describe.plot = $('.article .related-info .indent span[property="v:summary"]').text().trim().split("\n").map(ele => {//剧情简介
+            return ele.trim();
+        }).filter(ele =>{
+            return ele.trim();
+        });
+        $('.article .mod .award').each(function () {//获奖情况
+            let arr = [];
+            $(this).find('li').each(function () {
+                arr.push($(this).text().trim());
+            });
+            describe.prize.push(arr);
+        });
+    }
     return describe;
 }
 
@@ -90,18 +92,18 @@ function saveToMySql(data) {
             obj.prize += `${ele[0]}:${ele[1]}:${ele[2]};`;
         }
     });
-    function commonFn(data) {
+    function commonFn(data, prop) {
         data.forEach(ele => {
-            if(!obj.director) {
-                obj.director = `${ele.name};`
+            if(!obj[prop]) {
+                obj[prop] = `${ele.name};`
             } else {
-                obj.director += `${ele.name};`
+                obj[prop] += `${ele.name};`
             }
         });
     }
-    commonFn(data.director);
-    commonFn(data.author);
-    commonFn(data.actor);
+    commonFn(data.director, "director");
+    commonFn(data.author, "author");
+    commonFn(data.actor, "coreActor");
     data.genre.forEach(ele => {
         if(!obj.mType) {
             obj.mType = `${ele};`
@@ -134,6 +136,30 @@ async function getData(movieName, id) {
     return content;
 }
 
+function add(start) {
+    for(let i = start; i < start + 1; i++) {
+        getData("", i).then(res => {
+            let obj =  saveToMySql(res);
+            movieInfoDao.setMovieContent(obj.id, obj.mName, obj.director, obj.author, obj.coreActor, obj.mType, obj.country, obj.language, obj.mDate, obj.mTime, obj.plot, obj.prize, obj.image, function (result) {
+                if (result == null || result.length == 0) {
+                    console.log('fail');
+                } else {
+                    console.log('success');
+                }
+            });
+            // console.log(obj)
+        }, err => {
+            console.log("error")
+        });
+    }
+}
+// add(27010768)
+// add(30331424)
+// add(30434174)
+// add(30345227)
+// add(27026494)
+
+
 
 /**
  * 获取并存储电影详情数据
@@ -144,20 +170,22 @@ function setMovieContent(request, response) {//GET
     let params = url.parse(request.url, true).query;
     getData(params.movieName, params.id).then(res => {
         let obj =  saveToMySql(res);
-        // console.log(res);
         //存到数据库
-        // movieInfoDao.setMovieContent(obj.id, obj.mName, obj.director, obj.author, obj.coreActor, obj.mType, obj.country, obj.language, obj.mDate, obj.mTime, obj.plot, obj.prize, obj.image, function (result) {
-        //     if(result == null || result.length == 0){
-        //         console.log('fail');
-        //     } else {
-        //         console.log('success');
-        //     }
-            response.writeHead(200);
-            response.write(JSON.stringify(res));
-            response.end();
-        // })
+        movieInfoDao.setMovieContent(obj.id, obj.mName, obj.director, obj.author, obj.coreActor, obj.mType, obj.country, obj.language, obj.mDate, obj.mTime, obj.plot, obj.prize, obj.image, function (result) {
+            if(result == null || result.length == 0){
+                console.log('fail');
+            } else {
+                console.log('success');
+            }
+        });
+        response.writeHead(200);
+        response.write(JSON.stringify(res));
+        response.end();
     }, err => {
         console.log(err);
+        response.writeHead(200);
+        response.write("noData");
+        response.end();
     });
 }
 

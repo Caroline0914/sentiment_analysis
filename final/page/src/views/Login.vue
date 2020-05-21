@@ -16,7 +16,7 @@
           </div>
         </el-form-item>
         <el-form-item >
-          <el-checkbox v-model="autoLogin">下次自动登录</el-checkbox>
+<!--          <el-checkbox v-model="autoLogin">下次自动登录</el-checkbox>-->
           <el-link href="/register" :underline="false" class="toRegister">立即注册</el-link>
         </el-form-item>
         <el-form-item class="checkError" v-if="errorContent != ''">
@@ -41,6 +41,14 @@ export default {
   components: {
   },
   mounted() {
+    document.cookie.split("; ").forEach(item => {
+      let key = item.split("=")[0];
+      let value = item.split("=")[1];
+      if(key == "username" && value.length > 0) {
+        this.addUsername(value);
+        this.$router.push('/dataGrip/movieContentGrip');
+      }
+    });
     this.draw();
     this.$refs.onInput.focus();
     document.onkeydown = (e) => {
@@ -66,7 +74,7 @@ export default {
     ...mapState(['username'])
   },
   methods: {
-    ...mapMutations(['addUsername']),
+    ...mapMutations(['addUsername', 'addMag']),
     /**
      * 提交表单
      */
@@ -83,19 +91,19 @@ export default {
         return;
       }
       axios.all([
-        axios.post('http://127.0.0.1:8000/api/doLogin', JSON.stringify(this.userMsg)),//提交用户名和密码
+        axios.post('http://127.0.0.1:8000/api/doLogin', this.userMsg),//提交用户名和密码
         axios.post('http://127.0.0.1:8000/api/checkVerificationCode', {verificationCode: this.checkInp})//提交验证码
       ]).then(axios.spread((loginResp, veificResp) => {
-        if(loginResp.data == 'success' && veificResp.data == "success"){
+        if(loginResp.data.flag == "success" && veificResp.data == "success"){
           this.addUsername(this.userMsg.username);
+          this.addMag(loginResp.data.isMag);
           // login success
           //设置cookie，时间为1天
-          console.log(this.username);
           let now = new Date().getTime();
           let expiresTime = new Date(now + 24 * 60 * 60 * 1000);
           document.cookie = `username=${this.userMsg.username}; expires=${expiresTime}`;
           this.$router.push('/dataGrip/movieContentGrip');
-        } else if(loginResp.data == 'fail') {
+        } else if(loginResp.data.flag == 'fail') {
           // login fail
           this.errorContent = '用户名或密码错误，请重新输入';
         } else if(veificResp.data == "fail"){
@@ -200,6 +208,7 @@ export default {
   .wrapper .toRegister{
     position: absolute;
     right: 0;
+    top: -15px;
   }
   .wrapper .checkError{
     position: absolute;

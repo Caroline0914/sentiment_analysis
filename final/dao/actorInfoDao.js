@@ -17,7 +17,7 @@ const dbutil = require('./dbutil');
  * @param success
  */
 function setActorContent(id, actName, actImage, actSex, constellation, birthday, birthPlace, job, introduction, honor, recentProd, famousProd, success) {
-    let insertSql = "insert into movieInfo (id, actName, actImage, actSex, constellation, birthday, birthPlace, job, introduction, honor, recentProd, famousProd) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    let insertSql = "insert into actorInfo (id, actName, actImage, actSex, constellation, birthday, birthPlace, job, introduction, honor, recentProd, famousProd) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     let connection = dbutil.createConnection();
     connection.connect();
     connection.query(insertSql, [id, actName, actImage, actSex, constellation, birthday, birthPlace, job, introduction, honor, recentProd, famousProd], function (error, result) {

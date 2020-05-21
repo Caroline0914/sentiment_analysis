@@ -1,6 +1,10 @@
 const commentInfoDao = require('../dao/commentInfoDao');
 const common = require('./tools/common');
 const url = require('url');
+const Sentiment = require('sentiment');
+const nodejieba = require('nodejieba');
+
+let sentiment = new Sentiment();
 
 
 const path = new Map();
@@ -63,7 +67,7 @@ function getFullComment(id) {
                 } else {
                     setTimeout(() => {
                         resolve(cleanComment(res.text));
-                    }, getDuration())
+                    }, 0)
                 }
             });
     })
@@ -144,8 +148,8 @@ async function exec(name, id, start) {
     return con;
 }
 
-// exec("寄生虫", 0).then(res => {
-//     console.log(res);
+// exec("天气之子", '', 0).then(res => {
+//     // console.log(res);
 // }, err => {
 //     console.log(err);
 // });
@@ -159,24 +163,100 @@ function setComment(request, response) {//GET
     let params = url.parse(request.url, true).query;
     exec(params.mName, params.id, params.start).then(res => {
         // 存数据库
-        // res.forEach((item) => {
-        //     commentInfoDao.setMovieComment(params.name, item.cName, item.grade, item.time, item.title, item.content.join("a\ta"), +item.upNum, +item.downNum, +item.recallNum, function (result) {
-        //         if(result == null || result.length == 0){
-        //             console.log('fail');
-        //         } else {
-        //             console.log('success');
-        //         }
-                response.writeHead(200);
-                response.write(JSON.stringify(res));
-                response.end();
-        //     })
-        // })
+        res.allContent.forEach((item) => {
+            commentInfoDao.setMovieComment(item.id, res.id, item.cName, item.grade, item.time, item.title, item.content.join("a\ta"), +item.upNum, +item.downNum, +item.recallNum, function (result) {
+                if(result == null || result.length == 0){
+                    console.log('fail');
+                } else {
+                    console.log('success');
+                }
+            })
+        });
+        response.writeHead(200);
+        response.write(JSON.stringify(res));
+        response.end();
     }, err => {
-        // console.log(err);
+        console.log(err);
     })
 }
 
 
 path.set("/api/setComment", setComment);
+
+/**
+ * 获取随机评论和分析结果
+ * @param request
+ * @param response
+ */
+function getRandomCommentAndSentiment(request, response) {//GET
+    commentInfoDao.getCommentCount().then(res => {
+        return res;
+    }, err => {
+        console.log(err);
+    }).then(res => {
+        commentInfoDao.getRandomComment(res).then(data => {
+            let result = {};
+            let length = data.length;
+            let single = data[Math.floor(Math.random() * length)];
+            result.mName = single.mName;
+            result.content = single.content;
+            result.sentimentResult = sentiment.analyze(single.content);
+            response.writeHead(200);
+            response.write(JSON.stringify(result));
+            response.end();
+        }, err => {
+            console.log(err);
+        })
+    }, err => {
+        console.log(err)
+    })
+}
+
+path.set('/api/getRandomCommentAndSentiment', getRandomCommentAndSentiment);
+
+
+/**
+ * 获取随机评论和分词结果
+ * @param request
+ * @param response
+ */
+function getRandomCommentAndwords(request, response) {
+    // commentInfoDao.getCommentCount().then(res => {
+    //     return res;
+    // }, err => {
+    //     console.log(err);
+    // }).then(res => {
+    //     commentInfoDao.getRandomComment(res).then(data => {
+        commentInfoDao.getRandomComment(0).then(data => {
+            let result = {};
+            let length = data.length;
+            let single = data[Math.floor(Math.random() * length)];
+            result.commentId = single.id;
+            result.cName = single.cName;
+            result.cTime = single.cTime;
+            result.mName = single.mName;
+            result.content = single.content;
+            words = nodejieba.cut(single.content.split("a\ta")
+                .join("")
+                .replace(/\n/g, '')
+                .replace(/[.,!?$%\^&\*;:{}=_`\"~()。，？！：\/（）“”‘’；#￥……——0-9]/g, '')
+                .replace(/\s\s+/g, ''), true);
+            keyWord = nodejieba.extract(single.content.split("a\ta").join(""), 100000000).map(item => item.word);
+            result.words = words.filter(item => keyWord.includes(item));
+            response.writeHead(200);
+            response.write(JSON.stringify(result));
+            response.end();
+        }, err => {
+            console.log(err);
+        })
+    // }, err => {
+    //     console.log(err);
+    //     response.writeHead(200);
+    //     response.write("noData");
+    //     response.end();
+    // })
+}
+
+path.set('/api/getRandomCommentAndwords', getRandomCommentAndwords);
 
 module.exports.path = path;

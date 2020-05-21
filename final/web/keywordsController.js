@@ -31,7 +31,7 @@ async function getComment(mName, start, end) {
 }
 
 /**
- * 分词并存储
+ * 分词并存储(测试)
  * @param mName 电影名
  * @param start 开始id
  * @param end 结束id
@@ -61,6 +61,35 @@ function separate(mName, start, end) {
         console.log(err);
     })
 }
+
+/**
+ * 存关键词
+ * @param request
+ * @param response
+ */
+function setWord(request, response) {//POST
+    request.on("data", function (data) {
+        let params = JSON.parse(data.toString());
+        console.log(params);
+        params.allWord.forEach(item => {
+            keywordsDao.setKeyword(params.mName, item, 1).then(res => {
+                console.log(res);
+            }, err => {
+                console.log(err);
+            });
+        });
+        passCommentDao.setItem(params.commentId, params.mName, params.cName, params.cTime).then(res => {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        });
+        response.writeHead(200);
+        response.write("success");
+        response.end();
+    })
+}
+
+path.set('/api/setWord', setWord);
 
 /**
  * 获取词云图数据

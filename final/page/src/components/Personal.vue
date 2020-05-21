@@ -3,11 +3,8 @@
     <el-form :label-position="labelPosition" ref="dynamicValidateForm" label-width="70px" :model="userInfo">
       <el-form-item
               prop="username"
-              label="用户名"
-              :rules="{
-                required: true, message: '用户名不能为空', trigger: 'blur'
-              }">
-        <el-input v-model="userInfo.username" class="inp" ref="onInput" :disabled="flag"></el-input>
+              label="用户名">
+        <el-input v-model="userInfo.username" class="inp" ref="onInput" :disabled="true"></el-input>
       </el-form-item>
       <el-form-item label="性别">
         <el-radio-group v-model="userInfo.sex" :disabled="flag">
@@ -58,7 +55,6 @@
         labelPosition: 'right',
         flag: true,
         userInfo: {
-          id: '',
           username: '',
           sex: '',
           phone: '',
@@ -68,9 +64,12 @@
       }
     },
     computed: {
-      ...mapState(['username'])
+      ...mapState(['username', 'isMag'])
     },
     mounted() {
+      if(this.isMag) {
+        this.$router.replace({path: '/notfound'});
+      }
       this.getUserInfo();
     },
     methods: {
@@ -114,10 +113,14 @@
         }
       },
       checkId(rule, value, callback) {
-        if(!this.checkIDCard(value)){
-          callback('请输入正确的身份证号');
-        } else {
+        if(value != '' && value != null) {
+          if(!this.checkIDCard(value)){
+            callback('请输入正确的身份证号');
+          } else {
             callback();
+          }
+        } else {
+          callback();
         }
       },
       checkIDCard(idcode) {
@@ -152,7 +155,7 @@
         let format = idcard_patter.test(idcode);
         // 返回验证结果，校验码和格式同时正确才算是合法的身份证号码
         return last === last_no && format ? true : false;
-      }
+      },
     }
   }
 </script>

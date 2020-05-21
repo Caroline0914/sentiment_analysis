@@ -5,7 +5,7 @@ const dbutil = require('./dbutil');
  * @param username
  * @returns {Promise<unknown>}
  */
-async function getSearchWord(username) {
+function getSearchWord(username) {
     return new Promise((resolve, reject) => {
         let querySql = "select * from searchHistory where username = ? order by searchTime desc;";
         let connection = dbutil.createConnection();
@@ -22,18 +22,42 @@ async function getSearchWord(username) {
     })
 }
 
+
 /**
  * 设置记录
  * @param username
  * @param word
  * @returns {Promise<void>}
  */
-async function setHistory(username, word) {
+function setHistory(username, word, flag) {
     return new Promise((resolve, reject) => {
-        let insertSql = "insert into searchHistory(username, searchWord, searchTime) values (?, ?, NOW());";
+        let insertSql = "insert into searchHistory(username, searchWord, searchTime, flag) values (?, ?, NOW(), ?);";
         let connection = dbutil.createConnection();
         connection.connect();
-        connection.query(insertSql, [username, word], function (error, result) {
+        connection.query(insertSql, [username, word, flag], function (error, result) {
+            if(error == null) {
+                resolve(result);
+            } else {
+                // console.log(error);
+                reject(error);
+            }
+        });
+        connection.end();
+    })
+}
+
+/**
+ * 删除历史记录
+ * @param username 用户名
+ * @param searchTime 搜索时间
+ * @returns {Promise<unknown>}
+ */
+function deleteHistory(username, searchTime){
+    return new Promise((resolve, reject) => {
+        let deleteSql = "delete from searchHistory where username = ? and searchTime = ?;";
+        let connection = dbutil.createConnection();
+        connection.connect();
+        connection.query(deleteSql, [username, searchTime], function (error, result) {
             if(error == null) {
                 resolve(result);
             } else {
@@ -47,5 +71,6 @@ async function setHistory(username, word) {
 
 module.exports = {
     "getSearchWord": getSearchWord,
-    "setHistory": setHistory
+    "setHistory": setHistory,
+    "deleteHistory": deleteHistory
 };

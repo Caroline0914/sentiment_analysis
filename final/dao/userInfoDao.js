@@ -69,7 +69,7 @@ function checkHasUser(username, success) {
  * @param username 用户名
  * @returns {Promise<unknown>}
  */
-async function getUserInfo(username) {
+function getUserInfo(username) {
     return new Promise((resolve, reject) => {
         let querySql = "select * from userInfo where username = ?;";
         let connection = dbutil.createConnection();
@@ -86,12 +86,12 @@ async function getUserInfo(username) {
     })
 }
 
-async function updateUser(id, username, phone, sex, email, userId) {
+function updateUser(username, phone, sex, email, userId) {
     return new Promise((resolve, reject) => {
-        let updateSql = "update userInfo set username = ?, phone = ?, sex = ?, email = ?, userId = ? where id = ?;";
+        let updateSql = "update userInfo set username = ?, phone = ?, sex = ?, email = ?, userId = ? where username = ?;";
         let connection = dbutil.createConnection();
         connection.connect();
-        connection.query(updateSql, [username, phone, sex, email, userId, id], function (error, result) {
+        connection.query(updateSql, [username, phone, sex, email, userId, username], function (error, result) {
             if(error == null) {
                 resolve(result);
             } else {
@@ -107,7 +107,7 @@ async function updateUser(id, username, phone, sex, email, userId) {
  * 获取所有用户
  * @returns {Promise<unknown>}
  */
-async function getAllUsers() {
+function getAllUsers() {
     return new Promise((resolve, reject) => {
         let querySql = "select * from userInfo;";
         let connection = dbutil.createConnection();
@@ -126,15 +126,15 @@ async function getAllUsers() {
 
 /**
  * 删除用户
- * @param id
+ * @param username
  * @returns {Promise<unknown>}
  */
-async function deleteUser(id) {
+function deleteUser(username) {
     return new Promise((resolve, reject) => {
-        let deleteSql = "delete from userInfo where id = ?";
+        let deleteSql = "delete from userInfo where username = ?";
         let connection = dbutil.createConnection();
         connection.connect();
-        connection.query(deleteSql, id, function (error, result) {
+        connection.query(deleteSql, username, function (error, result) {
             if(error == null) {
                 resolve(result);
             } else {

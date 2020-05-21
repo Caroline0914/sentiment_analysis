@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    username: 'panda',
+    username: '',
+    isMag: 0,
     movieContent: {//电影相关信息集合
       id: '',
       name: '',
@@ -21,6 +22,7 @@ export default new Vuex.Store({
       mTime: '',
       plot: [],
       prize: [],
+      hasContent: false
     },
     actorContent: {//演员相关信息集合
       id: '',
@@ -34,18 +36,29 @@ export default new Vuex.Store({
       introduction: [],
       honor: [],
       recentProd: [],
-      famousProd: []
+      famousProd: [],
+      hasContent: false
     },
     movieComment: {//电影影评
       id: '',
-      comment: []
+      comment: [],
+      hasContent: false
     },
+    //影评信息
     max: 1,
-    startIndex: 0
+    startIndex: 0,
+    //有用性
+    useful: {
+      flag: 1,
+      movieName: ''
+    }
   },
   mutations: {
     addUsername(state, username){
       state.username = username;
+    },
+    addMag(state, isMag){
+      state.isMag = isMag;
     },
     handlePage(state, flag){
       if(flag == "prev" && state.startIndex >= state.max){
@@ -57,7 +70,14 @@ export default new Vuex.Store({
     setStart(state, newStart) {
       state.startIndex = newStart;
     },
+    setFlag(state, flag) {
+      state.useful.flag = flag;
+    },
+    setMovieName(state, movieName) {
+      state.useful.movieName = movieName;
+    },
     setMovieContent(state, content) {
+      state.movieContent.hasContent = true;
       state.movieContent.id = content.id;
       state.movieContent.name = content.name;
       state.movieContent.image = 'https://images.weserv.nl/?url=' + content.image.substring(7);
@@ -79,6 +99,7 @@ export default new Vuex.Store({
       });
     },
     setActorContent(state, data) {
+      state.actorContent.hasContent = true;
       state.actorContent.id = data.id;
       state.actorContent.actName = data.actName;
       state.actorContent.actImage = 'https://images.weserv.nl/?url=' + data.actImage.substring(7);
@@ -93,6 +114,7 @@ export default new Vuex.Store({
       state.actorContent.recentProd = data.recentProd;
     },
     setMovieComment(state, data) {
+      state.movieComment.hasContent = true;
       state.movieComment.id = data.id;
       // state.movieComment.comment = state.movieComment.comment ? state.movieComment.comment : [];
       state.movieComment.comment = [];
@@ -101,43 +123,101 @@ export default new Vuex.Store({
         // state.movieComment.comment[state.startIndex + i] = item;
         state.movieComment.comment.push(item);
       });
-      // console.log(state.movieComment)
     }
   },
   actions: {
     gripMovieContent({commit}, {inp, id, fn}) {
-      api.setMovieContent({
-        "movieName": inp,
-        "id": id
-      }).then(res => {
-        commit('setMovieContent', res.data);
-        fn();
-      }).catch(err => {
-        console.log(err);
-      })
+      if(inp || id) {
+        api.setMovieContent({
+          "movieName": inp,
+          "id": id
+        }).then(res => {
+          if(res.data == "noData"){
+            this.state.movieContent.hasContent = false;
+            this.state.movieContent.name = '';
+            fn();
+          } else {
+            commit('setMovieContent', res.data);
+            fn();
+            if(inp){
+              api.setHistory({
+                username: this.state.username,
+                word: this.state.movieContent.name,
+                flag: 1
+              }).then(res => {
+                console.log(res);
+              }, err => {
+                console.log(err);
+              })
+            }
+          }
+        }).catch(err => {
+          console.log(err);
+          this.state.movieContent.hasContent = false;
+          this.state.movieContent.name = '';
+        })
+      } else {
+        this.state.movieContent.hasContent = false;
+        this.state.movieContent.name = '';
+      }
     },
     gripActorContent({commit}, {inp, id, fn}) {
-      api.setActorContent({
-        "actName": inp,
-        "id": id
-      }).then(res => {
-        commit('setActorContent', res.data);
-        fn();
-      }).catch(err => {
-        console.log(err);
-      })
+      if(inp || id) {
+        api.setActorContent({
+          "actName": inp,
+          "id": id
+        }).then(res => {
+          if(res.data == 'noData') {
+            this.state.actorContent.hasContent = false;
+            this.state.actorContent.actName = '';
+            fn();
+          } else {
+            commit('setActorContent', res.data);
+            fn();
+            if(inp){
+              api.setHistory({
+                username: this.state.username,
+                word: this.state.actorContent.actName,
+                flag: 2
+              }).then(res => {
+                console.log(res);
+              }, err => {
+                console.log(err);
+              })
+            }
+          }
+        }).catch(err => {
+          console.log(err);
+          this.state.actorContent.hasContent = false;
+          this.state.actorContent.actName = '';
+        })
+      } else {
+        this.state.actorContent.hasContent = false;
+        this.state.actorContent.actName = '';
+      }
     },
     gripMovieComment({commit}, {inp, id, start, fn}) {
-      api.setComment({
-        mName: inp,
-        id: id,
-        start: start > 0 ? this.state.startIndex : 0
-      }).then(res => {
-        commit('setMovieComment', res.data);
-        fn();
-      }).catch(err => {
-        console.log(err);
-      })
+      if(inp || id || start) {
+        api.setComment({
+          mName: inp,
+          id: id,
+          start: start > 0 ? this.state.startIndex : 0
+        }).then(res => {
+          if(res.data == 'noData') {
+            this.state.movieComment.hasContent = false;
+            this.state.movieComment.movieName = '';
+            fn();
+          } else {
+            commit('setMovieComment', res.data);
+            fn();
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+      } else {
+        this.state.movieComment.hasContent = false;
+        this.state.movieComment.movieName = '';
+      }
     }
   },
   modules: {

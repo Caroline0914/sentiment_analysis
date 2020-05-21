@@ -5,7 +5,7 @@ const dbutil = require('./dbutil');
  * @param mName 电影名
  * @returns {Promise<unknown>}
  */
-async function getSameComment(mName) {
+function getSameComment(mName) {
     return new Promise((resolve, reject) => {
         let querySql = "select * from sameComment where mName=?;";
         let connection = dbutil.createConnection();
@@ -27,7 +27,7 @@ async function getSameComment(mName) {
  * @param mName 电影名
  * @returns {Promise<unknown>}
  */
-async function getAddComment(mName) {
+function getAddComment(mName) {
     return new Promise((resolve, reject) => {
         let querySql = "select * from sameComment where mName=? group by flag;";
         let connection = dbutil.createConnection();
@@ -44,8 +44,31 @@ async function getAddComment(mName) {
     });
 }
 
+/**
+ * 根据flag获取影评
+ * @param mName 电影名
+ * @param flag 标志
+ */
+function getCommentByFlag(mName, flag) {
+    return new Promise((resolve, reject) => {
+        let querySql = "select * from sameComment where mName=? and flag=?;";
+        let connection = dbutil.createConnection();
+        connection.connect();
+        connection.query(querySql, [mName, flag], function (error, result) {
+            if(error == null) {
+                resolve(result);
+            } else {
+                reject(error);
+                // throw new Error(error);
+            }
+        });
+        connection.end();
+    })
+}
+
 
 module.exports = {
     "getSameComment": getSameComment,
-    "getAddComment": getAddComment
+    "getAddComment": getAddComment,
+    "getCommentByFlag": getCommentByFlag
 };

@@ -7,7 +7,7 @@
       </div>
       <div class="right">
         <div class="welcome">
-          你好，{{username}}！
+          你好，{{$store.state.username}}！
         </div>
         <div class="exit"><span @click="handleExit">退出</span></div>
       </div>
@@ -32,13 +32,12 @@
             <el-menu-item index="1-2"><router-link :to="($store.state.actorContent.id ? {name: 'ActorContentGrip', params: {id: $store.state.actorContent.id}} : {name: 'ActorContentGrip'})" tag="li">演员简介获取</router-link></el-menu-item>
             <el-menu-item index="1-3"><router-link :to="($store.state.movieComment.id ? {name: 'MovieCommentGrip', params: {id: $store.state.movieComment.id}, query: {start: $store.state.start}} : {name: 'MovieCommentGrip'})" tag="li">影评获取</router-link></el-menu-item>
           </el-submenu>
-          <el-submenu index="2">
+          <el-submenu index="2" v-if="isMag">
             <template slot="title">
               <span>影评信息分析</span>
             </template>
-            <el-menu-item index="2-1"><router-link to="/review/useful" tag="li">有用性分析</router-link></el-menu-item>
+            <el-menu-item index="2-1"><router-link :to="($store.state.useful.movieName ? {name: 'Useful', query: {flag: $store.state.useful.flag, movieName: $store.state.useful.movieName}} : {name: 'Useful'})" tag="li">有用性分析</router-link></el-menu-item>
             <el-menu-item index="2-2"><router-link to="/review/keyWords" tag="li">关键词提取</router-link></el-menu-item>
-            <el-menu-item index="2-3"><router-link to="/review/sentimentAnalysis" tag="li">情感分析</router-link></el-menu-item>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
@@ -47,14 +46,17 @@
             <el-menu-item index="3-1"><router-link to="/visualization/wordCloud" tag="li">词云图</router-link></el-menu-item>
             <el-menu-item index="3-2"><router-link to="/visualization/sentimentChart" tag="li">情感分析</router-link></el-menu-item>
           </el-submenu>
-          <el-menu-item index="4">
+          <el-menu-item index="4" v-if="!isMag">
             <span><router-link to="/history" tag="li">历史记录</router-link></span>
           </el-menu-item>
-          <el-menu-item index="5">
+          <el-menu-item index="5" v-if="!isMag">
             <span><router-link to="/personal" tag="li">个人中心</router-link></span>
           </el-menu-item>
-          <el-menu-item index="6">
+          <el-menu-item index="6" v-if="isMag">
             <span><router-link to="/userCenter" tag="li">用户中心</router-link></span>
+          </el-menu-item>
+          <el-menu-item index="7" v-if="!isMag">
+            <span><router-link to="/suggestMovie" tag="li">猜你喜欢</router-link></span>
           </el-menu-item>
         </el-menu>
       </div>
@@ -75,7 +77,10 @@
       }
     },
     computed: {
-      ...mapState(['username'])
+      ...mapState(['username', 'isMag'])
+    },
+    mounted() {
+      console.log(this.username, this.isMag);
     },
     created(){
         //在页面加载时读取sessionStorage里的状态信息

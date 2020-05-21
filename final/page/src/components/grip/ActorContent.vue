@@ -38,6 +38,7 @@
         </div>
       </div>
     </div>
+    <div class="noData" v-if="showNoData">暂无数据</div>
   </div>
 </template>
 
@@ -55,19 +56,30 @@
     },
     data() {
       return {
+        showNoData: false
       }
     },
     mounted() {
       if(this.$route.params.id) {
         this.$store.dispatch('gripActorContent', {inp: '', id: this.$route.params.id, fn: () => {
-          this.$router.push('/dataGrip/actorContentGrip/' + this.actorContent.id)
+          this.showNoData = !this.actorContent.hasContent;
+          if(!this.showNoData) {
+            this.$router.push('/dataGrip/actorContentGrip/' + this.actorContent.id);
+          }
         } })
+      } else {
+        this.actorContent.actName = '';
       }
     },
     methods: {
       gripActorContent(inp) {
         this.$store.dispatch('gripActorContent', {inp: inp, id: '', fn: () => {
-          this.$router.push('/dataGrip/actorContentGrip/' + this.actorContent.id)
+          this.showNoData = !this.actorContent.hasContent;
+          if(!this.showNoData) {
+            this.$router.push('/dataGrip/actorContentGrip/' + this.actorContent.id);
+          } else {
+            this.$router.push('/dataGrip/actorContentGrip');
+          }
         } })
       },
     }
@@ -148,5 +160,11 @@
 .wrapper .content .famous .famousDetail span{
   display: block;
   text-align: center;
+}
+.wrapper .noData{
+  font-size: 20px;
+  text-align: center;
+  margin: 100px;
+  color: #666;
 }
 </style>

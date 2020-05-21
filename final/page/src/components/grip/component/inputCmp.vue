@@ -45,14 +45,6 @@
       handleClick() {
         if(this.inp) {
           this.$emit('startGrip', this.inp);
-          api.setHistory({
-            username: this.username,
-            word: this.inp
-          }).then(res => {
-            console.log(res);
-          }, err => {
-            console.log(err);
-          })
         }
       },
       handleInput(e) {

@@ -8,7 +8,7 @@ const dbutil = require('./dbutil');
  * @param cTime 评论时间
  * @returns {Promise<unknown>}
  */
-async function setItem(commentId, mName, cName, cTime) {
+function setItem(commentId, mName, cName, cTime) {
     return new Promise((resolve, reject) => {
         let insertSql = "insert into passComment (commentId, mName, cName, cTime) values (?, ?, ?, ?);";
         let connection = dbutil.createConnection();

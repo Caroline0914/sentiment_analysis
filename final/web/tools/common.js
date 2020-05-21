@@ -41,6 +41,9 @@ function getMovieId(obj, name) {
             id = item.id;
         }
     });
+    if(!id){
+        id = obj[0].id
+    }
     return id;
 }
 

@@ -81,7 +81,7 @@ export default {
       }
     },
     methods: {
-      handleClick: function () {
+      handleClick() {
         this.clickUserMsg = {//改变输入框点击状态
           username: true,
           password: true,
@@ -105,7 +105,7 @@ export default {
           }
         })
       },
-      checkHasUser: function () {
+      checkHasUser() {
         if(this.userMsg.username != ''){
           api.checkHasUser({
               username: this.userMsg.username

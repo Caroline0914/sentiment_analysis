@@ -1,6 +1,24 @@
 <template>
   <div class="wrapper">
     <InputCmp place="请输入电影名" @startGrip="gripMovieContent"/>
+    <div class="watch" v-show="movieContent.name">
+      <div class="word">电影跳转观看：</div>
+      <div class="pic">
+        <a :href="`https://so.youku.com/search_video/q_${movieContent.name}`" title="优酷" target="_blank">
+          <img src="../../assets/youku.png" alt="">
+        </a>
+      </div>
+      <div class="pic">
+        <a :href="`https://so.iqiyi.com/so/q_${movieContent.name}`" title="爱奇艺" target="_blank">
+          <img src="../../assets/iqiyi.jpg" alt="">
+        </a>
+      </div>
+      <div class="pic">
+        <a :href="`https://search.bilibili.com/all?keyword=${movieContent.name}`" title="bilibili" target="_blank">
+          <img src="../../assets/bilibili.jpg" alt="">
+        </a>
+      </div>
+    </div>
     <div class="content" v-show="movieContent.name">
       <div class="top">
         <img class="img" :src="movieContent.image">
@@ -27,6 +45,7 @@
         </div>
       </div>
     </div>
+    <div class="noData" v-if="showNoData">暂无数据</div>
   </div>
 </template>
 
@@ -44,19 +63,30 @@
     },
     data() {
       return {
+        showNoData: false
       }
     },
     mounted() {
       if(this.$route.params.id) {
         this.$store.dispatch('gripMovieContent', {inp: '', id: this.$route.params.id, fn: () => {
-          this.$router.push('/dataGrip/movieContentGrip/' + this.movieContent.id)
+          this.showNoData = !this.movieContent.hasContent;
+          if(!this.showNoData){
+            this.$router.push('/dataGrip/movieContentGrip/' + this.movieContent.id)
+          }
         } });
+      } else {
+        this.movieContent.name = '';
       }
     },
     methods: {
       gripMovieContent(inp) {
         this.$store.dispatch('gripMovieContent', {inp: inp, id: '', fn: () => {
-          this.$router.push('/dataGrip/movieContentGrip/' + this.movieContent.id)
+          this.showNoData = !this.movieContent.hasContent;
+          if(!this.showNoData) {
+            this.$router.push('/dataGrip/movieContentGrip/' + this.movieContent.id)
+          } else {
+            this.$router.push('/dataGrip/movieContentGrip');
+          }
         } });
       },
     }
@@ -66,27 +96,47 @@
 <style scoped>
 .wrapper{
   font-size: 14px;
+  position: relative;
+}
+.wrapper .watch{
+  display: flex;
+  position: absolute;
+  left: 800px;
+  top: 60px;
+}
+.wrapper .watch .word{
+  color: #3a8ee6;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+.wrapper .watch .pic{
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+}
+.wrapper .watch .pic img{
+  width: 30px;
 }
 .wrapper .content{
   margin-top: 15px;
 }
 .wrapper .content .top{
-  position: relative;
-  height: 240px;
+  display: flex;
 }
 .wrapper .content .top .img{
   margin-left: 5px;
-  width: 150px;
+  width: 200px;
 }
 .wrapper .content .top .serious{
-  position: absolute;
-  left: 170px;
-  top: 0;
+  margin-left: 10px;
 }
 .wrapper .content .top .serious .item{
+  color: #666666;
   margin: 0 0 3px 0;
 }
 .wrapper .content .top .serious .item span{
+  color: #111;
   margin: 0 2px;
 }
 .wrapper .content .plot,
@@ -111,5 +161,11 @@
 }
 .wrapper .content .prize .prizeDetail span:first-child{
   color: rgb(51, 119, 170);
+}
+.wrapper .noData{
+  font-size: 20px;
+  text-align: center;
+  margin: 100px;
+  color: #666;
 }
 </style>

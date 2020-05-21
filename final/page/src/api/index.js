@@ -36,6 +36,21 @@ const api = {
     },
     getSearchWord(params) {//获取历史记录
         return axios.get('/getSearchWord', {params});
+    },
+    getRandomCommentAndSentiment(parmas) {//获取随机评论和分析结果
+        return axios.get('/getRandomCommentAndSentiment');
+    },
+    getRandomCommentAndwords(params) {//获取随机评论和分词结果
+        return axios.get('/getRandomCommentAndwords');
+    },
+    deleteHistory(params){//删除历史记录
+        return axios.get('/deleteHistory', {params});
+    },
+    getCommentByFlag(params) {//根据flag获取影评
+        return axios.get('/getCommentByFlag', {params});
+    },
+    getRecommendMovie(params){//获取推荐电影
+        return axios.get('/getRecommendMovie', {params});
     }
 };
 

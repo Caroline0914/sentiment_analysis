@@ -11,9 +11,9 @@
       <change afterPath="$PROJECT_DIR$/page/src/axios.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/components/History.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/components/Personal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/components/SuggestMovie.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/components/UserCenter.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/components/filmReview/KeyWords.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/page/src/components/filmReview/SentimentAnalysis.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/components/filmReview/Useful.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/components/grip/ActorContent.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/components/grip/MovieComment.vue" afterDir="false" />
@@ -23,6 +23,7 @@
       <change afterPath="$PROJECT_DIR$/page/src/components/visualization/WordCloud.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/views/Login.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/views/Main.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page/src/views/NotFound.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/src/views/Register.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/page/vue.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/page/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/page/package-lock.json" afterDir="false" />
@@ -48,8 +49,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -76,6 +77,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\15867\Desktop\final\page\src\views" />
       <recent name="C:\Users\15867\Desktop\final\page\src\assets" />
       <recent name="C:\Users\15867\Desktop\final\page\src\components" />
       <recent name="C:\Users\15867\Desktop\final\page\public" />
@@ -97,25 +99,25 @@
     <configuration name="actorInfoController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="actorInfoController.js" working-dir="$PROJECT_DIR$/web">
       <method v="2" />
     </configuration>
+    <configuration name="commentInfoController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="commentInfoController.js" working-dir="$PROJECT_DIR$/web">
+      <method v="2" />
+    </configuration>
     <configuration name="index.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="index.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
-    <configuration name="keywordsController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="keywordsController.js" working-dir="$PROJECT_DIR$/web">
+    <configuration name="recommendMovieController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="recommendMovieController.js" working-dir="$PROJECT_DIR$/web">
       <method v="2" />
     </configuration>
-    <configuration name="sentimenttest.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/web/sentimenttest.js" working-dir="$PROJECT_DIR$/web">
-      <method v="2" />
-    </configuration>
-    <configuration name="userInfoDao.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="userInfoDao.js" working-dir="$PROJECT_DIR$/dao">
+    <configuration name="userInfoController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="userInfoController.js" working-dir="$PROJECT_DIR$/web">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Node.js.index.js" />
+        <item itemvalue="Node.js.commentInfoController.js" />
+        <item itemvalue="Node.js.recommendMovieController.js" />
         <item itemvalue="Node.js.actorInfoController.js" />
-        <item itemvalue="Node.js.sentimenttest.js" />
-        <item itemvalue="Node.js.keywordsController.js" />
-        <item itemvalue="Node.js.userInfoDao.js" />
+        <item itemvalue="Node.js.userInfoController.js" />
       </list>
     </recent_temporary>
   </component>
@@ -209,7 +211,25 @@
       <workItem from="1588499631549" duration="6841000" />
       <workItem from="1588570342941" duration="9472000" />
       <workItem from="1588646858365" duration="15878000" />
-      <workItem from="1588733245993" duration="1667000" />
+      <workItem from="1588733245993" duration="20925000" />
+      <workItem from="1588775238354" duration="682000" />
+      <workItem from="1588819475036" duration="9626000" />
+      <workItem from="1588907497004" duration="12135000" />
+      <workItem from="1588922976299" duration="17206000" />
+      <workItem from="1589005809626" duration="3986000" />
+      <workItem from="1589022822969" duration="11907000" />
+      <workItem from="1589079375185" duration="22330000" />
+      <workItem from="1589174876257" duration="10022000" />
+      <workItem from="1589287343372" duration="2799000" />
+      <workItem from="1589336742761" duration="15582000" />
+      <workItem from="1589462163302" duration="2096000" />
+      <workItem from="1589513106115" duration="36621000" />
+      <workItem from="1589558784324" duration="287000" />
+      <workItem from="1589633302308" duration="3111000" />
+      <workItem from="1589640994067" duration="882000" />
+      <workItem from="1589776667079" duration="20282000" />
+      <workItem from="1589864983016" duration="16613000" />
+      <workItem from="1589950615644" duration="2896000" />
     </task>
     <servers />
   </component>

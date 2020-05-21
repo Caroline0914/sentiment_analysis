@@ -1,6 +1,6 @@
 const dbutil = require('./dbutil');
 
-async function setKeyword(mName, word, addNum){
+function setKeyword(mName, word, addNum){
     return new Promise((resolve, reject) => {
         let updateSql =  "INSERT INTO keywords (mName, word, num) values(?, ?, ?) ON DUPLICATE KEY UPDATE num = num + ?;";
         let connection = dbutil.createConnection();
@@ -17,7 +17,7 @@ async function setKeyword(mName, word, addNum){
     })
 }
 
-async function getKeyword(mName, num){
+function getKeyword(mName, num){
     return new Promise((resolve, reject) => {
         let querySql = "select word, num from keywords where mName = ? and num >= ?;"
         let connection = dbutil.createConnection();

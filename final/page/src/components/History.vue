@@ -34,20 +34,19 @@
     name: "History",
     data () {
       return {
-        history: [{
-          word: '',
-          time: ''
-        }]
+        history: []
       }
     },
     computed: {
-      ...mapState(['username'])
+      ...mapState(['username', 'isMag'])
     },
     mounted() {
+      if(this.isMag) {
+        this.$router.replace({path: '/notfound'});
+      }
       api.getSearchWord({
         username: this.username
       }).then(res => {
-        console.log(res);
         this.history = [];
         res.data.forEach(item => {
           this.history.push({
@@ -61,7 +60,15 @@
     },
     methods: {
       handleDelete(index, row) {
-        console.log(index, row);
+        api.deleteHistory({
+          username: this.username,
+          searchTime: row.time
+        }).then(res => {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        });
+        this.history.splice(index, 1);
       }
     }
   }

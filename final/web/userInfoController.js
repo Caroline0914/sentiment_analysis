@@ -1,5 +1,9 @@
 const userInfoDao = require('../dao/userInfoDao');
 const url = require('url');
+const crypto = require('crypto-js');
+
+// let res = crypto.MD5('123456').toString();
+
 
 const path = new Map();
 
@@ -13,17 +17,20 @@ function doLogin (request, response) {//POST
         let obj = JSON.parse(data.toString());
         let username = obj.username;
         let password = obj.password;
-        userInfoDao.doLogin(username, password, function (result, error) {
-            let res = "";
+        let pwdMD5 = crypto.MD5(password).toString();
+        userInfoDao.doLogin(username, pwdMD5, function (result, error) {
+            let res = {
+                ...result[0]
+            };
             if(result == null || result.length == 0 || error){
-                res = "fail";
+                res.flag = "fail";
             } else {
                 if(result[0]){
-                    res = 'success';
+                    res.flag = "success";
                 }
             }
             response.writeHead(200);
-            response.write(res);
+            response.write(JSON.stringify(res));
             response.end();
         })
     })
@@ -83,8 +90,9 @@ function doRegister(request, response) {//POST
         let obj = JSON.parse(data.toString());
         let username = obj.username;
         let password = obj.password;
+        let pwdMD5 = crypto.MD5(password).toString();
         let phone = obj.phone;
-        userInfoDao.doRegister(username, password, phone, function (result, error) {
+        userInfoDao.doRegister(username, pwdMD5, phone, function (result, error) {
             let res = '';
             if(result == null || result.length == 0 || error){
                 res = 'fail';
@@ -166,7 +174,7 @@ path.set('/api/getAllUsers', getAllUsers);
 function updateUser(request, response) {//GET
     let params = url.parse(request.url, true).query;
     let sex = params.sex == '男' ? 0 : params.sex == '女' ? 1 : null;
-    userInfoDao.updateUser(params.id, params.username, params.phone, sex, params.email, params.userId).then(res => {
+    userInfoDao.updateUser(params.username, params.phone, sex, params.email, params.userId).then(res => {
         if(res.affectedRows == 1) {
             response.writeHead(200);
             response.write("success");
@@ -186,7 +194,7 @@ path.set('/api/updateUser', updateUser);
  */
 function deleteUser(request, response) {//GET
     let params = url.parse(request.url, true).query;
-    userInfoDao.deleteUser(params.id).then(res => {
+    userInfoDao.deleteUser(params.username).then(res => {
         if(res.affectedRows == 1) {
             response.writeHead(200);
             response.write("success");

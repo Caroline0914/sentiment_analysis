@@ -2,6 +2,7 @@ const common = require("./tools/common");
 const cheerio = require("cheerio");
 const superagent = require("superagent");
 const url = require('url');
+const actorInfoDao = require('../dao/actorInfoDao');
 
 const path = new Map();
 
@@ -155,6 +156,7 @@ async function getData(name, id) {
     return content;
 }
 
+
 /**
  * 获取并存储演员信息数据
  * @param request
@@ -162,22 +164,24 @@ async function getData(name, id) {
  */
 function setActorContent(request, response) {//GET
     let params = url.parse(request.url, true).query;
-    console.log(params)
     getData(params.actName, params.id).then(res => {
-        // let obj =  saveToMySql(res);
+        let obj =  saveToMySql(res);
         //存到数据库
-        // actorInfoDao.setActorContent(obj.id, obj.actName, obj.actImage, obj.actSex, obj.constellation, obj.birthday, obj.birthPlace, obj.job, obj.introduction, obj.honor, obj.recentProd, obj.famousProd, function (result) {
-        //     if(result == null || result.length == 0){
-        //         console.log('fail');
-        //     } else {
-        //         console.log('success');
-        //     }
+        actorInfoDao.setActorContent(obj.id, obj.actName, obj.actImage, obj.actSex, obj.constellation, obj.birthday, obj.birthplace, obj.job, obj.introduction, obj.honor, obj.recentProd, obj.famousProd, function (result) {
+            if(result == null || result.length == 0){
+                console.log('fail');
+            } else {
+                console.log('success');
+            }
+        });
         response.writeHead(200);
         response.write(JSON.stringify(res));
         response.end();
-        // })
     }, err => {
         console.log(err);
+        response.writeHead(200);
+        response.write('noData');
+        response.end();
     })
 }
 

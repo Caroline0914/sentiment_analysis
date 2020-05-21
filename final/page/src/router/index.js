@@ -11,21 +11,37 @@ VueRouter.prototype.push = function push(to) {
 const routes = [
   {
     path: '/',
-    redirect: '/dataGrip/movieContentGrip',
-    // redirect: '/login',
+    // redirect: '/dataGrip/movieContentGrip',
+    redirect: '/login',
     component: () => import('../views/Main.vue'),
     children: [{
       path: "history",
       name: 'History',
+      meta: {
+        key: '4'
+      },
       component: () => import('../components/History.vue')
     },{
       path: 'personal',
       name: 'Personal',
+      meta: {
+        key: '5'
+      },
       component: () => import('../components/Personal.vue')
     },{
       path: 'userCenter',
       name: 'UserCenter',
+      meta: {
+        key: '6'
+      },
       component: () => import('../components/UserCenter.vue')
+    },{
+      path: 'suggestMovie',
+      name: 'SuggestMovie',
+      meta: {
+        key: '7'
+      },
+      component: () => import('../components/SuggestMovie.vue')
     }]
   }, {
     path: '/login',
@@ -35,6 +51,10 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('../views/Register.vue')
+  }, {
+    path: '/notfound',
+    name: 'NotFound',
+    component: () => import('../views/NotFound.vue')
   }, {
     path: '/dataGrip',
     name: 'DataGrip',
@@ -81,13 +101,6 @@ const routes = [
         key: '2-2'
       },
       component: () => import('../components/filmReview/KeyWords.vue')
-    }, {
-      path: 'sentimentAnalysis',
-      name: 'SentimentAnalysis',
-      meta: {
-        key: '2-3'
-      },
-      component: () => import('../components/filmReview/SentimentAnalysis.vue')
     }]
   }, {
     path: '/visualization',
@@ -109,6 +122,9 @@ const routes = [
       },
       component: () => import('../components/visualization/SentimentChart.vue')
     }]
+  },{
+    path: '*',
+    redirect: '/notfound'
   }
 ];
 
@@ -119,22 +135,22 @@ const router = new VueRouter({
 });
 
 // 拦截
-// router.beforeEach((to, from, next) => {
-  // let flag = false;
-  // document.cookie.split("; ").forEach(item => {
-  //   let key = item.split("=")[0];
-  //   let value = item.split("=")[1];
-  //   if(key == "username" && value.length > 0) {
-  //     flag = true;
-  //   }
-  // });
-  // if(flag || to.name == "Register" || to.name == "Login") {
-  //   next()
-  // } else {
-  //   next({
-  //     path: '/login'
-  //   });
-  // }
-// });
+router.beforeEach((to, from, next) => {
+  let flag = false;
+  document.cookie.split("; ").forEach(item => {
+    let key = item.split("=")[0];
+    let value = item.split("=")[1];
+    if(key == "username" && value.length > 0) {
+      flag = true;
+    }
+  });
+  if(flag || to.name == "Register" || to.name == "Login") {
+    next()
+  } else {
+    next({
+      path: '/login'
+    });
+  }
+});
 
 export default router

@@ -27,6 +27,7 @@
       <button @click="handleClick('prev')">上一页</button>
       <button @click="handleClick('next')">下一页</button>
     </template>
+    <div class="noData" v-if="showNoData">暂无数据</div>
   </div>
 </template>
 
@@ -41,16 +42,22 @@
     },
     data() {
       return {
+        showNoData: false
       }
     },
     mounted(){
       if(this.$route.query.start && this.startIndex != this.$route.query.start) {
-          this.setStart(this.$route.query.start);
+          this.setStart(+this.$route.query.start);
       }
       if(this.$route.params.id) {
         this.$store.dispatch('gripMovieComment', {inp: '', id: this.$route.params.id, start: this.$route.query.start, fn: () => {
-          this.$router.push(`/dataGrip/movieCommentGrip/${this.movieComment.id}?start=${this.$route.query.start}`)
+          this.showNoData = !this.movieComment.hasContent;
+          if(!this.showNoData) {
+            this.$router.push(`/dataGrip/movieCommentGrip/${this.movieComment.id}?start=${this.$route.query.start}`)
+          }
         } });
+      } else {
+        this.movieComment.comment = [];
       }
     },
     computed: {
@@ -60,13 +67,24 @@
       ...mapMutations(['handlePage', 'setStart']),
       gripMovieComment(inp) {
         this.$store.dispatch('gripMovieComment', {inp: inp, id: '', start: -1, fn: () => {
-          this.$router.push(`/dataGrip/movieCommentGrip/${this.movieComment.id}?start=${this.startIndex}`)
+          this.setStart(0);
+          this.showNoData = !this.movieComment.hasContent;
+          if(!this.showNoData){
+            this.$router.push(`/dataGrip/movieCommentGrip/${this.movieComment.id}?start=${this.startIndex}`)
+          } else {
+            this.$router.push('/dataGrip/movieCommentGrip')
+          }
         } });
       },
       handleClick(flag) {
         this.handlePage(flag);
         this.$store.dispatch('gripMovieComment', {inp: '', id: this.movieComment.id, start: this.startIndex, fn: () => {
-          this.$router.push(`/dataGrip/movieCommentGrip/${this.movieComment.id}?start=${this.startIndex}`)
+          this.showNoData = !this.movieComment.hasContent;
+          if(!this.showNoData){
+            this.$router.push(`/dataGrip/movieCommentGrip/${this.movieComment.id}?start=${this.startIndex}`)
+          } else {
+            this.$router.push('/dataGrip/movieCommentGrip')
+          }
         } });
       }
     }
@@ -124,5 +142,11 @@
   padding: 3px;
   border: 1px solid #37a;
   outline: none;
+}
+.wrapper .noData{
+  font-size: 20px;
+  text-align: center;
+  margin: 100px;
+  color: #666;
 }
 </style>

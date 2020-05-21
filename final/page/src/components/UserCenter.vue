@@ -45,20 +45,16 @@
           <el-button
                   size="mini"
                   @click="handleHistory(scope.$index, scope.row)">查看</el-button>
-
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="用户编辑" :visible.sync="dialogFormVisible" ref="checkInfo"  :modal-append-to-body="false">
-      <el-form :model="userInfo">
+    <el-dialog title="用户编辑" :visible.sync="dialogFormVisible" :modal-append-to-body="false">
+      <el-form :model="userInfo" ref="checkInfo">
         <el-form-item
                 prop="username"
                 label="用户名"
-                :rules="{
-                  required: true, message: '用户名不能为空', trigger: 'blur'
-                }"
                 :label-width="formLabelWidth">
-          <el-input v-model="userInfo.username"></el-input>
+          <el-input v-model="userInfo.username" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="性别" :label-width="formLabelWidth">
           <el-radio-group v-model="userInfo.sex">
@@ -70,7 +66,7 @@
                 prop="phone"
                 label="绑定手机"
                 :rules="{
-                validator: checkPhone,
+                  validator: checkPhone,
                   trigger: ['blur', 'change']
                 }"
                 :label-width="formLabelWidth">
@@ -89,7 +85,7 @@
                 prop="userId"
                 label="身份证号"
                 :rules="{
-                validator: checkId,
+                  validator: checkId,
                   trigger: ['blur', 'change']
                 }"
                 :label-width="formLabelWidth">
@@ -99,6 +95,26 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="handleSubmit('checkInfo')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="历史记录" :visible.sync="dialogTableVisible" :modal-append-to-body="false">
+      <el-table
+              :data="history"
+              border
+              style="width: 100%">
+        <el-table-column
+                label="搜索词"
+                prop="word"
+                align="center">
+        </el-table-column>
+        <el-table-column
+                label="时间"
+                prop="time"
+                align="center">
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogTableVisible = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -113,7 +129,6 @@
         return {
           allUsers: [],
           userInfo: {
-            id: '',
             username: '',
             sex: '',
             phone: '',
@@ -121,11 +136,16 @@
             userId: ''
           },
           dialogFormVisible: false,
+          dialogTableVisible: false,
           formLabelWidth: '120px',
-          curIndex: 0
+          curIndex: 0,
+          history: []
         }
       },
       mounted() {
+        if(this.isMag) {
+          this.$router.replace({path: '/notfound'});
+        }
         this.getAllUsers();
       },
       methods: {
@@ -136,13 +156,14 @@
         },
         handleDelete(index, row) {
           api.deleteUser({
-              id: row.id
+            username: row.username
           }).then(res => {
-            console.log(res)
+            if(res.data == 'success'){
+              this.allUsers.splice(index, 1);
+            }
           }, err => {
             console.log(err);
           });
-          this.allUsers.splice(index, 1);
         },
         handleSubmit(formName) {
           this.$refs[formName].validate((valid) => {
@@ -173,7 +194,20 @@
           })
         },
         handleHistory(index, row) {
-          console.log(index, row);
+          this.dialogTableVisible = true;
+          api.getSearchWord({
+            username: row.username
+          }).then(res => {
+            this.history = [];
+            res.data.forEach(item => {
+              this.history.push({
+                word: item.searchWord,
+                time: item.searchTime
+              })
+            })
+          }, err => {
+            console.log(err);
+          })
         },
         checkPhone(rule, value, callback) {
           if(value == ''){
@@ -185,8 +219,12 @@
           }
         },
         checkId(rule, value, callback) {
-          if(!this.checkIDCard(value)){
-            callback('请输入正确的身份证号');
+          if(value != '' && value != null) {
+            if(!this.checkIDCard(value)){
+              callback('请输入正确的身份证号');
+            } else {
+              callback();
+            }
           } else {
             callback();
           }
